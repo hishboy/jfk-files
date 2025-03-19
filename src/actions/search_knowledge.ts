@@ -66,7 +66,7 @@ export const searchKnowledgeAction: Action = {
       const searchResults = await knowledgeService.search({
         q: optimizedQuery,
         limit: 15,
-        matchThreshold: 0.3
+        matchThreshold: 0.25
       })
 
       elizaLogger.info(`Found ${searchResults.length} results for query: ${optimizedQuery}`)

@@ -6,7 +6,12 @@ import { Agent } from '@tribesxyz/ayaos'
 async function main(): Promise<void> {
   try {
     const agent = new Agent({
-      dataDir: '/Users/hish/Data/jfk-files'
+      dataDir: '/Users/hish/Data/jfk-files',
+      knowledge: {
+        // force the agent to use the knowledge base action and not the one in runtime
+        matchThreshold: 1,
+        matchLimit: 0
+      }
     })
 
     agent.on('pre:llm', async (context) => {
