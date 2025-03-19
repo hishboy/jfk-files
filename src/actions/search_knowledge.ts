@@ -91,8 +91,9 @@ export const searchKnowledgeAction: Action = {
           summary =
             'Based on my search of the declassified JFK assassination documents, here are the top results:\n\n'
           searchResults.slice(0, 5).forEach((result, index) => {
+            const recordNumber = result.content.metadata?.recordNumber || 'Unknown Record'
             const text = result.content.text || 'No text content'
-            summary += `${index + 1}. ${text.substring(0, 150)}${text.length > 150 ? '...' : ''}\n\n`
+            summary += `${index + 1}. [Record ${recordNumber}] ${text.substring(0, 150)}${text.length > 150 ? '...' : ''}\n\n`
           })
         }
       } else {
@@ -146,7 +147,7 @@ export const searchKnowledgeAction: Action = {
       {
         user: '{{user2}}',
         content: {
-          text: "Based on my search of the declassified documents, here's what I found about Lee Harvey Oswald: [Summary of search results]"
+          text: "Based on my search of the declassified documents, here's what I found about Lee Harvey Oswald (Record 104-10015-10057, Record 124-10370-10283): [Summary of search results]"
         }
       }
     ],
@@ -167,7 +168,7 @@ export const searchKnowledgeAction: Action = {
       {
         user: '{{user2}}',
         content: {
-          text: "After searching through the declassified documents, here's what I found about Cuban connections to the JFK assassination: [Summary of search results]"
+          text: "After searching through the declassified documents, here's what I found about Cuban connections to the JFK assassination (Record 180-10147-10075, Record 124-10086-10190): [Summary of search results]"
         }
       }
     ]
@@ -274,6 +275,8 @@ If documents contain contradictory information, note these discrepancies.
 Format your response in markdown with sections and bullet points as appropriate.
 If the search results don't contain relevant information to answer the query, state that clearly.
 Always begin your response by indicating you're sharing information from declassified JFK files.
+IMPORTANT: Always reference the Record Number for each piece of information 
+you share (e.g., "According to Record 104-10015-10057...").
 Keep your summary under 500 words.`
 
   // Use generateText instead of reasoning.chat
