@@ -1,10 +1,11 @@
+import { DocsIndexer } from '@/indexers/files'
 import { elizaLogger } from '@elizaos/core'
 import { Agent } from '@tribesxyz/ayaos'
 
 async function main(): Promise<void> {
   try {
     const agent = new Agent({
-      dataDir: '/Users/hish/Data/jfk-files',
+      dataDir: '/Users/hish/Data/jfk-files'
     })
 
     agent.on('pre:llm', async (context) => {
@@ -18,6 +19,15 @@ async function main(): Promise<void> {
     })
 
     await agent.start()
+
+    // Sleep for 5 seconds before proceeding
+    console.log('Sleeping for 5 seconds...')
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+    console.log('Continuing execution...')
+
+    const indexer = new DocsIndexer(agent)
+    const rootDir = process.cwd()
+    await indexer.indexFiles(`${rootDir}/src/files`, 'jfk', 'md')
   } catch {
     process.exit(1)
   }
