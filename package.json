@@ -6,9 +6,9 @@
   "scripts": {
     "build": "tsup src/index.ts --format esm --dts",
     "lint": "eslint src/**/*.ts",
-    "dev": "tsx src/index.ts",
+    "dev": "dotenv --e .env -- tsx src/index.ts",
     "start": "NODE_ENV=production tsx dist/index.js",
-    "agent": "dotenv --e /root/.agentcoin-fun/env.production -- tsx dist/index.js"
+    "agent": "dotenv --e .env -- tsx dist/index.js"
   },
   "dependencies": {
     "@elizaos/core": "0.1.9",
