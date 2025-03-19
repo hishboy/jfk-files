@@ -23,3 +23,8 @@ export async function findFilesWithExtension(dir: string, ext: string): Promise<
 export function isRequiredString(arg: any): arg is string {
   return typeof arg === 'string'
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function isNull(obj: any): obj is null | undefined {
+  return obj === null || obj === undefined
+}

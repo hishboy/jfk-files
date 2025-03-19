@@ -1,3 +1,4 @@
+import { searchKnowledgeAction } from '@/actions/search_knowledge'
 import { DocsIndexer } from '@/indexers/files'
 import { elizaLogger } from '@elizaos/core'
 import { Agent } from '@tribesxyz/ayaos'
@@ -9,19 +10,20 @@ async function main(): Promise<void> {
     })
 
     agent.on('pre:llm', async (context) => {
-      console.log('llm:pre', context.memory)
+      console.log('llm:pre', context.content)
       return true
     })
 
     agent.on('post:llm', async (context) => {
-      console.log('llm:post', context.memory)
+      console.log('llm:post', context.content)
       return true
     })
 
+    await agent.register('action', searchKnowledgeAction)
     await agent.start()
 
     // Sleep for 5 seconds before proceeding
-    console.log('Sleeping for 5 seconds...')
+
     await new Promise((resolve) => setTimeout(resolve, 5000))
     console.log('Continuing execution...')
 

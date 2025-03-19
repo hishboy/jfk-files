@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@elizaos/core": "0.1.9",
-    "@tribesxyz/ayaos": "0.0.26"
+    "@tribesxyz/ayaos": "0.0.27"
   },
   "engines": {
     "node": ">=22"

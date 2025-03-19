@@ -19,7 +19,6 @@ export class DocsIndexer {
     // step 2: embed files
     const kbService = this.agent.knowledge
     for (const file of files) {
-      console.log(`[${type}] Indexing file: ${file}`)
       const content = await fs.promises.readFile(file, 'utf-8')
       const docId = stringToUuid(`file:${file}`)
 
