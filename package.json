@@ -12,7 +12,13 @@
   },
   "dependencies": {
     "@elizaos/core": "0.1.9",
-    "@tribesxyz/ayaos": "0.0.29"
+    "@tribesxyz/ayaos": "0.0.29",
+    "drizzle-orm": "0.39.1",
+    "drizzle-zod": "0.7.0",
+    "langchain": "^0.3.19",
+    "pgvector": "0.2.0",
+    "postgres": "3.4.5",
+    "zod": "^3.24.2"
   },
   "engines": {
     "node": ">=22"

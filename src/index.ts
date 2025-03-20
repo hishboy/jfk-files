@@ -1,7 +1,10 @@
+import { lookupByRecordNumberAction } from '@/actions/lookup_by_record_number'
 import { searchKnowledgeAction } from '@/actions/search_knowledge'
+import { drizzleDB } from '@/common/db'
 import { DocsIndexer } from '@/indexers/files'
 import { elizaLogger } from '@elizaos/core'
 import { Agent } from '@tribesxyz/ayaos'
+import { sql } from 'drizzle-orm'
 
 async function main(): Promise<void> {
   try {
@@ -25,7 +28,15 @@ async function main(): Promise<void> {
     })
 
     await agent.register('action', searchKnowledgeAction)
+    await agent.register('action', lookupByRecordNumberAction)
     await agent.start()
+
+    // add index to recordNumber
+    // Create index on knowledge.content.type
+    await drizzleDB.execute(
+      sql`CREATE INDEX IF NOT EXISTS idx_knowledge_record_number
+          ON knowledge((content->'metadata'->>'recordNumber'));`
+    )
 
     // Sleep for 5 seconds before proceeding
 
