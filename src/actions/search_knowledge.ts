@@ -26,7 +26,6 @@ export const searchKnowledgeAction: Action = {
     'LOOKUP_ASSASSINATION_RECORDS',
     'SEARCH_JFK_ARCHIVES'
   ],
-  suppressInitialMessage: true,
   description:
     'Searches the knowledge base containing declassified files about the JFK assassination ' +
     'released to the public. This database contains approximately 80,000 pages of interviews,' +
