@@ -26,6 +26,7 @@ export const searchKnowledgeAction: Action = {
     'LOOKUP_ASSASSINATION_RECORDS',
     'SEARCH_JFK_ARCHIVES'
   ],
+  suppressInitialMessage: true,
   description:
     'Searches the knowledge base containing declassified files about the JFK assassination ' +
     'released to the public. This database contains approximately 80,000 pages of interviews,' +
@@ -140,7 +141,7 @@ export const searchKnowledgeAction: Action = {
       {
         user: '{{user2}}',
         content: {
-          text: "I'll search the declassified JFK assassination files for information about Lee Harvey Oswald.",
+          text: "I'll search the declassified JFK files for that information.",
           action: 'SEARCH_KNOWLEDGE'
         }
       },
@@ -161,7 +162,7 @@ export const searchKnowledgeAction: Action = {
       {
         user: '{{user2}}',
         content: {
-          text: "I'll search the declassified files for information about Cuban connections to the JFK assassination.",
+          text: "I'll search the declassified JFK files for that information.",
           action: 'SEARCH_KNOWLEDGE'
         }
       },
@@ -277,7 +278,8 @@ If the search results don't contain relevant information to answer the query, st
 Always begin your response by indicating you're sharing information from declassified JFK files.
 IMPORTANT: Always reference the Record Number for each piece of information 
 you share (e.g., "According to Record 104-10015-10057...").
-Keep your summary under 500 words.`
+Keep your summary under 500 words.
+Be as succinct as possible without losing important details. Less text is always better.`
 
   // Use generateText instead of reasoning.chat
   return await generateText({
