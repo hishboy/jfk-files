@@ -28,3 +28,11 @@ export function isRequiredString(arg: any): arg is string {
 export function isNull(obj: any): obj is null | undefined {
   return obj === null || obj === undefined
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function ensureString(value: any, message: string | undefined = undefined): string {
+  if (!value) {
+    throw new Error(message || 'Value is undefined')
+  }
+  return value
+}

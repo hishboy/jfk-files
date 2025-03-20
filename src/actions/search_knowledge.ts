@@ -278,7 +278,10 @@ Always begin your response by indicating you're sharing information from declass
 IMPORTANT: Always reference the Record Number for each piece of information 
 you share (e.g., "According to Record 104-10015-10057...").
 Keep your summary under 500 words.
-Be as succinct as possible without losing important details. Less text is always better.`
+Be as succinct as possible without losing important details. Less text is always better.
+If there is no relation between the search results and the user's query, no need to include
+irrelevant information.
+`
 
   // Use generateText instead of reasoning.chat
   return await generateText({

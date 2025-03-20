@@ -1,15 +1,21 @@
 import { lookupByRecordNumberAction } from '@/actions/lookup_by_record_number'
 import { searchKnowledgeAction } from '@/actions/search_knowledge'
 import { drizzleDB } from '@/common/db'
+import { OPENAI_API_KEY, OPENAI_API_URL } from '@/common/env'
 import { DocsIndexer } from '@/indexers/files'
 import { elizaLogger } from '@elizaos/core'
-import { Agent } from '@tribesxyz/ayaos'
+import { Agent, ModelProviderName } from '@tribesxyz/ayaos'
 import { sql } from 'drizzle-orm'
 
 async function main(): Promise<void> {
   try {
     const agent = new Agent({
       dataDir: '/Users/hish/Data/jfk-files',
+      modelConfig: {
+        provider: ModelProviderName.OPENAI,
+        endpoint: OPENAI_API_URL,
+        apiKey: OPENAI_API_KEY
+      },
       knowledge: {
         // force the agent to use the knowledge base action and not the one in runtime
         matchThreshold: 1,
