@@ -24,12 +24,12 @@ async function main(): Promise<void> {
     })
 
     agent.on('pre:llm', async (context) => {
-      console.log('llm:pre', context.content)
+      console.log('llm:pre', context)
       return true
     })
 
     agent.on('post:llm', async (context) => {
-      console.log('llm:post', context.content)
+      console.log('llm:post', context)
       return true
     })
 
