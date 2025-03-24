@@ -2,10 +2,10 @@ import { isNull } from '@/common/functions'
 import { elizaLogger, generateText, ModelClass } from '@elizaos/core'
 import {
   Action,
-  AgentcoinRuntime,
   Content,
   HandlerCallback,
-  KnowledgeBaseService,
+  IAyaRuntime,
+  KnowledgeService,
   Memory,
   RAGKnowledgeItem,
   State
@@ -32,18 +32,14 @@ export const searchKnowledgeAction: Action = {
     ' evidence, and reports collected over the years. Use this tool when the user asks for ' +
     'specific information related to the JFK assassination, involved individuals, or related ' +
     'historical events.',
-  validate: async (
-    _runtime: AgentcoinRuntime,
-    _message: Memory,
-    _options: { [key: string]: unknown }
-  ) => {
+  validate: async (_runtime: IAyaRuntime, _message: Memory, _state?: State) => {
     return true
   },
   handler: async (
-    runtime: AgentcoinRuntime,
+    runtime: IAyaRuntime,
     message: Memory,
-    _state: State,
-    _options: { [key: string]: unknown },
+    _state?: State,
+    _options?: { [key: string]: unknown },
     callback?: HandlerCallback
   ): Promise<boolean> => {
     elizaLogger.info('Starting SEARCH_KNOWLEDGE handler for JFK assassination documents...')
@@ -56,7 +52,7 @@ export const searchKnowledgeAction: Action = {
       }
 
       // Access the knowledge base through the runtime
-      const knowledgeService = runtime.getService(KnowledgeBaseService)
+      const knowledgeService = runtime.ensureService(KnowledgeService)
 
       // Generate an optimized search query using LLM
       const optimizedQuery = await generateOptimizedQuery(userQuery, runtime)
@@ -181,10 +177,7 @@ export const searchKnowledgeAction: Action = {
  * @param runtime The agent runtime for accessing LLM services
  * @returns An optimized query for vector search
  */
-async function generateOptimizedQuery(
-  userQuery: string,
-  runtime: AgentcoinRuntime
-): Promise<string> {
+async function generateOptimizedQuery(userQuery: string, runtime: IAyaRuntime): Promise<string> {
   try {
     const systemPrompt = `
 You are an expert at optimizing search queries for a vector database containing declassified
@@ -254,7 +247,7 @@ function prepareSearchResultsText(searchResults: RAGKnowledgeItem[]): string {
  * @returns A summary of the search results
  */
 async function generateSummaryFromResults(
-  runtime: AgentcoinRuntime,
+  runtime: IAyaRuntime,
   resultTexts: string,
   userQuery: string
 ): Promise<string> {

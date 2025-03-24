@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@elizaos/core": "0.1.9",
-    "@tribesxyz/ayaos": "0.0.29",
+    "@tribesxyz/ayaos": "0.0.33",
     "drizzle-orm": "0.39.1",
     "drizzle-zod": "0.7.0",
     "langchain": "^0.3.19",

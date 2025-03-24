@@ -3,9 +3,9 @@ import { isNull } from '@/common/functions'
 import { elizaLogger, generateText, ModelClass } from '@elizaos/core'
 import {
   Action,
-  AgentcoinRuntime,
   Content,
   HandlerCallback,
+  IAyaRuntime,
   Memory,
   RAGKnowledgeItem,
   State
@@ -34,18 +34,14 @@ export const lookupByRecordNumberAction: Action = {
     'record number or when you need to retrieve all documents related to a particular ' +
     'document ID. The action handles large documents by breaking them into smaller chunks ' +
     'and progressively summarizing the content.',
-  validate: async (
-    _runtime: AgentcoinRuntime,
-    _message: Memory,
-    _options: { [key: string]: unknown }
-  ) => {
+  validate: async (_runtime: IAyaRuntime, _message: Memory, _state?: State) => {
     return true
   },
   handler: async (
-    runtime: AgentcoinRuntime,
+    runtime: IAyaRuntime,
     message: Memory,
-    _state: State,
-    _options: { [key: string]: unknown },
+    _state?: State,
+    _options?: { [key: string]: unknown },
     callback?: HandlerCallback
   ): Promise<boolean> => {
     elizaLogger.info('Starting LOOKUP_BY_RECORD_NUMBER handler...')
@@ -266,10 +262,7 @@ export const lookupByRecordNumberAction: Action = {
  * @param runtime The agent runtime for accessing LLM services
  * @returns The extracted record number or null if none found
  */
-async function extractRecordNumber(
-  message: string,
-  runtime: AgentcoinRuntime
-): Promise<string | null> {
+async function extractRecordNumber(message: string, runtime: IAyaRuntime): Promise<string | null> {
   try {
     // First try to extract using regex
     const recordNumberRegex = /\b\d{3}-\d{5}-\d{5}\b/
@@ -319,7 +312,7 @@ Do not include any other text in your response.`
  * @returns A summary of the processed documents
  */
 async function processSummaryForLargeDocuments(
-  runtime: AgentcoinRuntime,
+  runtime: IAyaRuntime,
   searchResults: RAGKnowledgeItem[],
   recordNumber: string
 ): Promise<string> {
@@ -366,7 +359,7 @@ async function processSummaryForLargeDocuments(
 
   // For very large documents, use a progressive summarization approach
   // First, generate summaries for each chunk
-  const chunkSummaries = []
+  const chunkSummaries: string[] = []
   for (let i = 0; i < chunks.length; i++) {
     const chunk = chunks[i]
     elizaLogger.info(`Summarizing chunk ${i + 1}/${chunks.length} (${chunk.length} chars)`)
@@ -397,7 +390,7 @@ async function processSummaryForLargeDocuments(
  * @returns A summary of the chunk
  */
 async function generateChunkSummary(
-  runtime: AgentcoinRuntime,
+  runtime: IAyaRuntime,
   chunk: string,
   recordNumber: string,
   chunkNumber: number,
@@ -429,7 +422,7 @@ Keep your summary concise (150-250 words) and include any important details from
  * @returns A final summary of the document
  */
 async function generateFinalSummary(
-  runtime: AgentcoinRuntime,
+  runtime: IAyaRuntime,
   combinedSummaries: string,
   recordNumber: string
 ): Promise<string> {
@@ -463,7 +456,7 @@ Keep your summary under 500 words and be as succinct as possible without losing 
  * @returns A summary of the search results
  */
 async function generateSummaryFromResults(
-  runtime: AgentcoinRuntime,
+  runtime: IAyaRuntime,
   resultTexts: string,
   recordNumber: string
 ): Promise<string> {
