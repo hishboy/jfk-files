@@ -44,11 +44,6 @@ async function main(): Promise<void> {
           ON knowledge((content->'metadata'->>'recordNumber'));`
     )
 
-    // Sleep for 5 seconds before proceeding
-
-    await new Promise((resolve) => setTimeout(resolve, 5000))
-    console.log('Continuing execution...')
-
     const indexer = new DocsIndexer(agent)
     const rootDir = process.cwd()
     await indexer.indexFiles(`${rootDir}/src/files`, 'jfk', 'md')
